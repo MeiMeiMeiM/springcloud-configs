@@ -1,1 +1,32 @@
+server:
+  port: 20001
+spring:
+  application:
+    name: project-mall
+  zipkin:
+    base-url: http://localhost:9999
+  sleuth:
+    sampler:
+      percentage: 1.0  #0.1--1.0  链路跟踪的数据上传的概率是多大
+  thymeleaf:
+    cache: false
+    mode: LEGACYHTML5
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8000/eureka/
+  instance:
+    prefer-ip-address: true
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 2000 #设置请求时的，试时时间
 
+#        timeout:
+#          enabled: false #取消超时检查，只有在被调用方出现异常时，才会认为调用失败
+      circuitBreaker:
+        requestVolumeThreshold: 2 #一个统计窗口内熔断触发的最小个数/10s
+        sleepWindowInMilliseconds: 5000 #熔断多少秒后去尝试请求
